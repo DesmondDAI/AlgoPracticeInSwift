@@ -96,15 +96,44 @@ func merge(_ array1: [Int], _ array2: [Int]) -> [Int] {
     return mergedArray
 }
 
+// Quick Sort
+func quickSort(_ array: inout [Int], start: Int, end: Int) {
+    guard start < end else {
+        return
+    }
+
+    let pivot = partition(&array, start: start, end: end)
+    quickSort(&array, start: start, end: pivot - 1)
+    quickSort(&array, start: pivot + 1, end: end)
+}
+
+func partition(_ array: inout [Int], start: Int, end: Int) -> Int {
+    let pivot = array[end]
+    var index = start
+
+    for i in start..<end {
+        if array[i] < pivot {
+            (array[index], array[i]) = (array[i], array[index])
+            index += 1
+        }
+    }
+
+    (array[index], array[end]) = (array[end], array[index])
+
+    return index
+}
+
 // 创建数组进行比较
 var bubbleArray = [Int]()
 var insertionArray = [Int]()
 var mergeArray = [Int]()
+var quickArray = [Int]()
 for _ in 0..<100 {
     let num = Int(arc4random() % 1000)
     bubbleArray.append(num)
     insertionArray.append(num)
     mergeArray.append(num)
+    quickArray.append(num)
 }
 // 冒泡排序执行时间
 let bubbleStart = Date().timeIntervalSince1970
@@ -123,3 +152,9 @@ let mergeStart = Date().timeIntervalSince1970
 let mergedArray = mergeSort(mergeArray)
 let mergeEnd = Date().timeIntervalSince1970
 let mergeDuration = (mergeEnd - mergeStart) * 1000
+
+// 快速排序执行时间
+let quickStart = Date().timeIntervalSince1970
+quickSort(&quickArray, start: 0, end: quickArray.count - 1)
+let quickEnd = Date().timeIntervalSince1970
+let quickDuration = (quickEnd - quickStart) * 1000
