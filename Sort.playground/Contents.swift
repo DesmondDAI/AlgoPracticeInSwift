@@ -56,6 +56,24 @@ func insertionSort(_ array: inout [Int]) {
     }
 }
 
+// Selection Sort
+func selectionSort(_ array: inout [Int]) {
+    let count = array.count
+    guard count > 0 else {
+        return
+    }
+
+    for i in 0..<count {
+        var minIndex = i
+        for j in i..<count {
+            if array[j] < array[minIndex] {
+                minIndex = j
+            }
+        }
+        (array[i], array[minIndex]) = (array[minIndex], array[i])
+    }
+}
+
 // Merge Sort
 func mergeSort(_ array: [Int]) -> [Int] {
     let count = array.count
@@ -128,12 +146,14 @@ var bubbleArray = [Int]()
 var insertionArray = [Int]()
 var mergeArray = [Int]()
 var quickArray = [Int]()
-for _ in 0..<100 {
+var selectionArray = [Int]()
+for _ in 0..<200 {
     let num = Int(arc4random() % 1000)
     bubbleArray.append(num)
     insertionArray.append(num)
     mergeArray.append(num)
     quickArray.append(num)
+    selectionArray.append(num)
 }
 // 冒泡排序执行时间
 let bubbleStart = Date().timeIntervalSince1970
@@ -146,6 +166,12 @@ let insertionStart = Date().timeIntervalSince1970
 insertionSort(&insertionArray)
 let insertionEnd = Date().timeIntervalSince1970
 let insertionDuration = (insertionEnd - insertionStart) * 1000
+
+// 选择排序执行时间
+let selectionStart = Date().timeIntervalSince1970
+selectionSort(&selectionArray)
+let selectionEnd = Date().timeIntervalSince1970
+let selectionDuration = (selectionEnd - selectionStart) * 1000
 
 // 归并排序执行时间
 let mergeStart = Date().timeIntervalSince1970
